@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 from dash import Dash, dcc, html, Input, Output, callback, dash_table, State
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+import random
 
 stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css'] # load the CSS stylesheet
 
