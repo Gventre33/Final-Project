@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 from dash import Dash, dcc, html, Input, Output, callback, dash_table, State
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-import random
+#import random
 
 stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css'] # load the CSS stylesheet
 
@@ -152,7 +152,8 @@ html.Div(style={'backgroundColor': 'white', 'padding': '20px', 'border': '1px so
                 id='team-dropdown',
                 options=[{'label': team, 'value': team} for team in df['Team Name'].unique()],
                 placeholder="Select NFL Teams to Analyze",
-                value=random.sample(list(df["Team Name"].unique()),8),
+                value="Miami Dolphins"
+                #value=random.sample(list(df["Team Name"].unique()),8),
                 multi=True,
                 #style={'height': 'auto','backgroundColor': '#D50A0A', 'color': 'black'},
             ),
