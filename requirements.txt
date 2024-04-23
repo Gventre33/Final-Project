@@ -6,4 +6,3 @@ plotly
 gunicorn
 seaborn
 matplotlib
-random
