@@ -15,6 +15,9 @@ server = app.server
 # import data
 df = pd.read_csv("data.csv")
 
+#Round win/loss % to 2 decimal places
+df["win_loss_perc"] = df["win_loss_perc"].round(2)
+
 # rename the columns
 df.rename(columns={
     "year": "Season Year",
@@ -56,7 +59,7 @@ df.rename(columns={
     "division": "NFL Division"
 },inplace = True)
 
-desired_columns = ["Team Name", "Games Won", "Games Lost", "Games Tied","Win/Loss Percentage", 
+desired_columns = ["Team Name", "Games Won", "Games Lost","Win/Loss Percentage", 
                    "Points For", "Points Against", "Point Differential"]
 
 # create datatable
@@ -152,7 +155,7 @@ html.Div(style={'backgroundColor': 'white', 'padding': '20px', 'border': '1px so
                 multi=True,
                 #style={'height': 'auto','backgroundColor': '#D50A0A', 'color': 'black'},
             ),
-            html.Label('Select X-Axis Metric:'),
+            html.Label('Select X-Axis Metric (Only Modifies Graph):'),
             dcc.Dropdown(
                 id='x-axis-dropdown',
                 options=[{'label': col, 'value': col} for col in df.columns[3:]],
@@ -160,7 +163,7 @@ html.Div(style={'backgroundColor': 'white', 'padding': '20px', 'border': '1px so
                 value=df.columns[19],
                 #style={'backgroundColor': '#D50A0A', 'color': 'black'},
             ),
-            html.Label('Select Y-Axis Metric:'),
+            html.Label('Select Y-Axis Metric (Only Modifies Graph):'),
             dcc.Dropdown(
                 id='y-axis-dropdown',
                 options=[{'label': col, 'value': col} for col in df.columns[3:]],
@@ -172,7 +175,8 @@ html.Div(style={'backgroundColor': 'white', 'padding': '20px', 'border': '1px so
     ]),
 ]),
 
-html.Br(),
+
+    html.Br(),
     
 html.Div(id='table-title', style={'textAlign': 'left', 'font-weight': 'bold'}),
 html.Div(style={'display': 'flex'}, children=[
@@ -181,6 +185,8 @@ html.Div(style={'display': 'flex'}, children=[
     style={'flex': '1', 'width': '45%', 'marginRight': '10px'}),
     html.Div(dcc.Graph(id='graph-with-slider'), style={'flex': '1', 'width': '45%', 'marginLeft': '10px'}),
 ])
+ 
+
 ])
 
 
@@ -244,7 +250,7 @@ def update_figure(selected_year, selected_teams,x_axis,y_axis,selected_conferenc
     title = f"{y_axis} vs {x_axis}"
     fig.update_layout(title = title, transition_duration=500)
 
-    # Calculate median values for x and y axes
+    #Calculate median values for x and y axes
     x_median = filtered_df[x_axis].median()
     y_median = filtered_df[y_axis].median()
 
@@ -285,6 +291,8 @@ def update_table(slider_value, selected_conference, selected_division):
         title = f"{selected_division} standings for {slider_value} season"
     else:
         title = f"Overall standings for {slider_value} season"
+
+    filtered_df = filtered_df.sort_values(by="Games Won", ascending=False)
 
     return filtered_df.to_dict("records"),title
 
